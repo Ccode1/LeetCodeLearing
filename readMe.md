@@ -118,7 +118,7 @@ public class Solution extends VersionControl {
 请必须使用时间复杂度为 O(log n) 的算法。
 
 条件提示:
-![img.png](img.png)
+![enter image description here](/tfl/pictures/202111/tapd_20426911_1636216894_36.png)
 事例1：
 ```text
 输入: nums = [1,3,5,6], target = 5
