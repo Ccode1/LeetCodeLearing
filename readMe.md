@@ -19,6 +19,14 @@ https://leetcode-cn.com/study-plan/algorithms/?progress=pg93lem
 输出: -1
 解释: 2 不存在 nums 中因此返回 -1
 ```
+思路：
+```txt
+有序数组里面寻找目标值，首选我们会根据有序想到二分查找，然后就是有两个点，l、r的更新策略
+循环内，首先定位中位数，根据nums[mid]大小更新l,r.因为数组升序，
+所以当nums[mid] < target时，mid+1的位置开始往右才可能找到target,更新l = mid+1;
+nums[mid] > target时，mid -1 位置开始往左才可能找到target的值，直到l > r循环跳出
+循环条件：l <= r. 
+```
 代码：
 ```java
 public class search {
@@ -62,6 +70,19 @@ public class search {
 ```
 输入：n = 1, bad = 1
 输出：1
+```
+思路：
+```txt
+根据题意，错误版本之后全是错误版本，这种属于临界点问题，同样可以采用二分查找的方法
+我们先定义l、r更新策略再谈循环条件，当isBadVersion(mid) == true时，说明mid位置开始往左都有可能出现第一次错误的版本
+r= mid, isBadVersion(mid) == false时，表明第一次出现错误版本的位置只可能在mid + 1到r之间
+所以，l = mid +1,直到l == r 找到临界点，跳出循环，所以循环条件是 l < r
+```
+```text
+在求mid时,两种写法：
+1. int mid = (l+r) >> 1;
+2. int mid = l +(r-l) >> 1;
+这样写主要是因为，r和l相加可能造成数据类型溢出，根据题目提示判断哪种写法ok
 ```
 代码：
 ```java
