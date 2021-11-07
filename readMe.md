@@ -9,6 +9,7 @@ https://leetcode-cn.com/study-plan/algorithms/?progress=pg93lem
 
 条件提示：
 ![img_1.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_1.png)
+
 事例1：
 ```text
 输入: nums = [-1,0,3,5,9,12], target = 9
@@ -58,6 +59,7 @@ public class search {
 
 条件提示：
 ![img_2.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_2.png)
+
 事例1：
 ```text
 输入：n = 5, bad = 4
@@ -119,6 +121,7 @@ public class Solution extends VersionControl {
 
 条件提示:
 ![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img.png)
+
 事例1：
 ```text
 输入: nums = [1,3,5,6], target = 5
