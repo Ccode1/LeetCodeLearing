@@ -178,4 +178,96 @@ public class searchInsert {
     }
 }
 ```
+### 第二天 （双指针）
+#### 3.有序数组的平方 977 简单
 
+题目：
+给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_3.png)
+
+事例1：
+```text
+输入：nums = [-4,-1,0,3,10]
+输出：[0,1,9,16,100]
+解释：平方后，数组变为 [16,1,0,9,100]
+排序后，数组变为 [0,1,9,16,100]
+```
+事例2：
+```text
+输入：nums = [-7,-3,2,3,11]
+输出：[4,9,9,49,121]
+```
+
+思路：
+```text
+方法一：利用原数组是一个非递减的有序数组的特性，假设原数组所有元素非负，那么结果就是所有元素原地乘方返回就行
+假设所有元素为负数，负数越大，其数值越小（-3 > -4 >-5)，那么返回结果即为元素乘方的倒序
+那么原数组有正有负的情况即为主要讨论的地方，必然有一个正负元素的分割点，分割点往左，乘方递增，往右乘方也是递增
+就可以采用归并排序的思想来解决问题了，分割点为i（i位置的元素为最大的负数），那么从i+1位置往右都是正数
+依次比较两个方向的最小平方值，较小的放入新的位置。
+```
+代码：
+```java
+public class sortedSquares {
+    public int[] sortedSquares(int[] nums) {
+        int split = -1; //记录数组正负元素分割线位置
+        for(int i = 0; i < nums.length;i++){
+            if(nums[i] < 0){
+                split = i;
+            }else{
+                break;
+            }
+        }
+        int[] res = new int [nums.length];
+        int index = 0;
+        int i = split; //因为负数越大，他的平方就越小，所以从小到大来进行归并 i为数组中负数的平方值最小的位置
+        int j = split+1;//数组中第一个为正数的位置
+        while(i>=0 || j < nums.length){
+            if(i<0){
+                res[index] = nums[j]*nums[j];
+                j++;
+            }else if(j == nums.length){
+                res[index] = nums[i]*nums[i];
+                i--;
+            }else if(nums[i]*nums[i]< nums[j]*nums[j]){
+                res[index] = nums[i]*nums[i];
+                i--;
+            }else{
+                res[index] = nums[j]*nums[j];
+                j++;
+            }
+            index++;
+        }
+        return res;
+    }
+}
+```
+```text
+方法二：双指针法
+无论上面哪种情况，元素乘方较大值只可能在数组两端，我们可以左侧从0开始，右侧从nums.length-1开始，
+比较nums[i]*nums[i]  nums[j]*nums[j]大小，将较大的放入结果数组的最后面，然后移动游标进行比较
+```
+代码：
+```java
+public class sortedSquares2 {
+    //双指针法
+    public int[] sortedSquares(int[] nums) {
+        int[] res = new int[nums.length];
+        int i = 0,j = nums.length-1 , index = j;
+        while(i <= j){ //这里跳出条件为 <= 是因为最后左右要碰头，不然少了最后一种情况
+            if(nums[i]*nums[i]> nums[j]*nums[j]){
+                res[index] = nums[i]*nums[i];
+                i++;
+            }else{
+                res[index] = nums[j]*nums[j];
+                j--;
+            }
+            index --;
+        }
+        return res;
+    }
+}
+```
