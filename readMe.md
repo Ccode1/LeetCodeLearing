@@ -8,7 +8,7 @@ https://leetcode-cn.com/study-plan/algorithms/?progress=pg93lem
 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。
 
 条件提示：
-![img_1.png](img/img_1.png)
+![img_1.png](https://github.com/Ccode1/LeetCodeLearing/blob/master/img/img_1.png)
 事例1：
 ```text
 输入: nums = [-1,0,3,5,9,12], target = 9
