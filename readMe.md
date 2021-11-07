@@ -8,6 +8,7 @@ https://leetcode-cn.com/study-plan/algorithms/?progress=pg93lem
 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。
 
 条件提示：
+
 ![img_1.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_1.png)
 
 事例1：
@@ -58,6 +59,7 @@ public class search {
 你可以通过调用 bool isBadVersion(version) 接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。
 
 条件提示：
+
 ![img_2.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_2.png)
 
 事例1：
@@ -120,6 +122,7 @@ public class Solution extends VersionControl {
 请必须使用时间复杂度为 O(log n) 的算法。
 
 条件提示:
+
 ![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img.png)
 
 事例1：
