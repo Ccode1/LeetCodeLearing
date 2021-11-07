@@ -5,6 +5,7 @@ package com.yhs.twentydays;
  * @date 2021年 11月 07日 6:57 下午
  **/
 public class sortedSquares {
+    //方法一：正负划分，归并思想
     public int[] sortedSquares(int[] nums) {
         int split = -1; //记录数组正负元素分割线位置
         for(int i = 0; i < nums.length;i++){
@@ -33,6 +34,22 @@ public class sortedSquares {
                 j++;
             }
             index++;
+        }
+        return res;
+    }
+    //双指针法
+    public int[] sortedSquares2(int[] nums) {
+        int[] res = new int[nums.length];
+        int i = 0,j = nums.length-1 , index = j;
+        while(i <= j){
+            if(nums[i]*nums[i]> nums[j]*nums[j]){
+                res[index] = nums[i]*nums[i];
+                i++;
+            }else{
+                res[index] = nums[j]*nums[j];
+                j--;
+            }
+            index --;
         }
         return res;
     }
