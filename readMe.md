@@ -245,6 +245,7 @@ public class sortedSquares {
     }
 }
 ```
+思路2：
 ```text
 方法二：双指针法
 无论上面哪种情况，元素乘方较大值只可能在数组两端，我们可以左侧从0开始，右侧从nums.length-1开始，
@@ -319,7 +320,7 @@ public class rotate {
     }
 }
 ```
-
+思路2：
 ```text
 方法二：翻转法：
 原数组旋转k个位置，可以看成将原数组整个翻转，然后将翻转后的数组分成两部分翻转【0，k-1】【k,nums.length-1]
@@ -393,7 +394,7 @@ public class moveZeroes {
     }
 }
 ```
-
+思路2：
 ```text
 方法二：双指针法（空间优化）：
 定义两个指针i,j在数组初始位置，i用来遍历数组，j用来记录下一个非0元素将要交换的位置
@@ -422,6 +423,98 @@ class Soulution{
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
+    }
+}
+```
+#### 2. 两数之和 II - 输入有序数组 167 简单
+
+题目：
+给定一个已按照 非递减顺序排列  的整数数组 numbers ，请你从数组中找出两个数满足相加之和等于目标数 target 。
+函数应该以长度为 2 的整数数组的形式返回这两个数的下标值。numbers 的下标 从 1 开始计数 ，所以答案数组应当满足 1 <= answer[0] < answer[1] <= numbers.length 。
+你可以假设每个输入 只对应唯一的答案 ，而且你 不可以 重复使用相同的元素。
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_6.png)
+
+事例1：
+```text
+输入：numbers = [2,7,11,15], target = 9
+输出：[1,2]
+解释：2 与 7 之和等于目标数 9 。因此 index1 = 1, index2 = 2 
+```
+事例2：
+```text
+输入：numbers = [2,3,4], target = 6
+输出：[1,3]
+```
+事例3：
+```text
+输入：numbers = [-1,0], target = -1
+输出：[1,2]
+```
+思路：
+```text
+方法一：hash表法
+首先遍历下数组，将每个元素对应的达成目标值的另一个元素存入hash表中作为key，value值则为对应输出的索引
+然后再一次遍历数组，遍历到当前元素作为key值，如果在map中存在，则说明对应的数组中可能存在另一个元素能与之达成目标值，
+但不排除相同的元素使用两次，所以对索引值再进行判断，当两个元素索引值不一致时，则为正确答案
+```
+代码：
+```java
+
+//方法一：
+public class twoSum {
+
+    //hashMap法
+    public int[] twoSum(int[] numbers, int target) {
+        if(numbers.length < 2)
+            return new int[2];
+        HashMap<Integer,Integer> map = new HashMap();
+        for(int i = 0; i< numbers.length;i++){
+            map.put(target-numbers[i],i+1);
+        }
+        for(int i = 0;i<numbers.length;i++){
+            if(map.containsKey(numbers[i])){
+                if(i != map.get(numbers[i])){
+                    int [] res = new int[2];
+                    res[0] = i+1;
+                    res[1] = map.get(numbers[i]);
+                    return res;
+                }
+            }
+        }
+        return new int[2];
+    }
+}
+```
+思路2：
+```text
+方法二：双指针法：
+因为数组为非递减数组，所以可以考虑双指针法，定义两个指针分别在首尾，每次根据首尾指针的和的大小与目标值对比移动指针
+当满足条件存入结果数组，跳出循环（一定记得跳出循环，否则可能超时），循环判断条件为l<r 因为不能重复元素
+
+```
+代码：
+```java
+class twoSum{
+    // 双指针法
+    public int[] twoSum2(int[] numbers, int target) {
+        int l = 0,r = numbers.length-1;
+        int[] res = new int [2];
+        while(l<r){
+            int nums = numbers[l]+numbers[r];
+            if(nums < target){
+                l++;
+            }else if(nums>target){
+                r--;
+            }else{
+                res[0] = l+1;
+                res[1] = r+1;
+                break;
+            }
+        }
+        return res;
     }
 }
 ```
