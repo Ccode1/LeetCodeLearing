@@ -349,3 +349,79 @@ class Soulution{
     }
 }
 ```
+### 第三天（双指针）
+#### 1. 移动零 238 简单
+
+题目：
+给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_5.png)
+
+事例1：
+```text
+输入: [0,1,0,3,12]
+输出: [1,3,12,0,0]
+```
+
+思路：
+```text
+方法一：遍历数组，记录数组中0出现的次数，在遍历的过程中，当前元素非0，当前值覆盖到数组首部，更新指针向后移动
+当前元素为0，count++,遍历跳过当前元素，最后非0元素都在数组头部，再根据count的大小给数组尾部赋值0
+```
+代码：
+```java
+
+//方法一：
+public class moveZeroes {
+
+    public void moveZeroes(int[] nums) {
+        int count = 0;
+        int index = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                count++;
+            } else {
+                nums[index++] = nums[i];
+            }
+        }
+        while (count > 0) {
+            nums[index++] = 0;
+            count--;
+        }
+    }
+}
+```
+
+```text
+方法二：双指针法（空间优化）：
+定义两个指针i,j在数组初始位置，i用来遍历数组，j用来记录下一个非0元素将要交换的位置
+当前元素nums[i] ==0 ，跳过
+当前元素nums[i] != 0,交换nums[i],nums[j]数值，更新指针位置i++,j++;
+
+```
+代码：
+```java
+class Soulution{
+    //双指针法
+    public void moveZeroes2(int[] nums) {
+        int i = 0;//用于遍历数组
+        int j = 0;//用于记录下一个非0元素需要交换的位置
+        for(int num:nums){
+            if(num == 0){
+                i++;
+            }else{
+                swap(nums,i,j);
+                i++;
+                j++;
+            }
+        }
+    }
+    public void swap(int[] nums,int i,int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+```
