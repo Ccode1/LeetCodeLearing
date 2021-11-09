@@ -567,3 +567,52 @@ public class reverseString {
     }
 }
 ```
+#### 2. 反转字符串中的单词 III 557 简单
+
+题目：
+给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。
+
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_8.png)
+
+事例1：
+```text
+输入："Let's take LeetCode contest"
+输出："s'teL ekat edoCteeL tsetnoc"
+```
+思路：
+```text
+方法一：
+这一题与上一题比较类似，入参为一个以空格切分的一个字符串，出参要求将每个空格两边的字符串字符反转
+这里我们可以先将字符转化成字符数组，然后分别对该数组中的每个子元素字符串进行单词反转，局部的处理遇上一题一样，最后用一个StringBuffer将结果拼接
+```
+代码：
+```java
+public class reverseWords {
+    //化整为零，双指针交换，StringBuffer拼接结果返回
+    public String reverseWords(String s) {
+        if(s==null|| s.length() == 0){
+            return s;
+        }
+        String[] srr = s.split(" "); //根据空格将字符串切分成n个字符串型数组
+        StringBuffer sb = new StringBuffer(); //定义一个StringBuffer接受结果，并在下面的逻辑进行拼装
+        for(String ss:srr){
+            int l = 0,r = ss.length()-1;//反转每个字符串数组中的单词
+            char[] crr = ss.toCharArray();
+            while(l<r){
+                char c = crr[l];
+                crr[l] = crr[r];
+                crr[r] = c;
+                l++;
+                r--;
+            }
+            sb.append(String.valueOf(crr)).append(" ");
+        }
+        return sb.toString().trim();
+    }
+}
+
+```
+
