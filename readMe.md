@@ -518,3 +518,52 @@ class twoSum{
     }
 }
 ```
+### 第四天（双指针）
+#### 1. 反转字符串 344 简单
+
+题目：
+编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 s 的形式给出。
+
+不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。
+
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_7.png)
+
+事例1：
+```text
+输入：s = ["h","e","l","l","o"]
+输出：["o","l","l","e","h"]
+```
+事例2：
+```text
+输入：s = ["H","a","n","n","a","h"]
+输出：["h","a","n","n","a","H"]
+```
+思路：
+```text
+方法一：反转字符串，分为数组的奇偶性两种情况：
+奇数个元素： 每次交换首尾，然后向中间缩进，直到最后中间肯定剩一项不用交换
+偶数个：交换到最后，元素没有剩余
+从中可以看出，l，r始终没有碰面，所以循环结束条件应该是l<r
+```
+代码：
+```java
+
+//方法一：
+public class reverseString {
+    //双指针法
+    public void reverseString(char[] s) {
+        int l =0,r= s.length-1;
+        while(l<r){
+            swap(s,l++,r--);
+        }
+    }
+    public void swap(char[] s,int l,int r){
+        char temp = s[l];
+        s[l] = s[r];
+        s[r] = temp;
+    }
+}
+```
