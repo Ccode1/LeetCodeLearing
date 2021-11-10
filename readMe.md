@@ -614,4 +614,127 @@ public class reverseWords {
     }
 }
 ```
+### 第五天（双指针）
+#### 1.  链表的中间结点 876 简单
 
+题目：
+给定一个头结点为 head 的非空单链表，返回链表的中间结点。
+
+如果有两个中间结点，则返回第二个中间结点
+
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_9.png)
+
+事例1：
+```text
+输入：[1,2,3,4,5]
+输出：此列表中的结点 3 (序列化形式：[3,4,5])
+返回的结点值为 3 。 (测评系统对该结点序列化表述是 [3,4,5])。
+注意，我们返回了一个 ListNode 类型的对象 ans，这样：
+ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next = NULL.
+```
+事例2：
+```text
+输入：[1,2,3,4,5,6]
+输出：此列表中的结点 4 (序列化形式：[4,5,6])
+由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
+```
+思路：
+```text
+方法一：给定一个链表，返回中间节点，首先我会想到快慢指针的方式
+慢指针每次走一步，快指针每次走两步，这样当快指针走到终点的时候慢指针的位置恰好在中间位置附近，因为要考虑到链表元素的奇偶性
+当链表元素为奇数时，当快指针指向最后一个元素的时候，慢指针的位置恰好为中点1 2 3 4 5  快指针： 1->3  3->5 慢指针：1->2 2->3
+当链表元素为偶数时,快指针必定先走到终点，并且最后一次指向null  1 2 3 4 5 6快指针： 1->3 3->5 5->null 慢指针：1->2 2—>3 3->4
+所以综上while()的终止条件应该为fast != null && fast.next ！= null才会继续往下赋值 当fast == null时对应偶数情况，当fast.next ==null对应奇数情况
+
+```
+代码：
+```java
+
+//方法一：
+public class middleNode {
+    //定义一个listNode内部类
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    }
+    //快慢指针方式
+    public ListNode middleNode(ListNode head) {
+        ListNode low =  head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            low = low.next;
+            fast = fast.next.next;
+        }
+        return low;
+    }
+}
+```
+#### 1.  删除链表的倒数第 N 个结点 19 中等
+
+题目：
+给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+ 
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_10.png)
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_11.png)
+
+事例2：
+```text
+输入：head = [1], n = 1
+输出：[]
+```
+事例3：
+```text
+输入：head = [1,2], n = 1
+输出：[1]
+```
+思路：
+```text
+方法一：
+因为要删除的元素可能是第一个元素，所以要构建一个0节点，考虑到这种情况
+采用快慢指针的方式，目的是为了让快指针跳出循环的时候，慢指针正好指向要删除元素的前一个位置，那么删除元素的方法即位：low.next = low.next.next
+通过观察，fast指针从head的第一个元素开始，慢指针从新构建的0个元素开始
+fast先走n步，然后fast和low以同步长向后走，当fast走完，指向null时，low正好指向要删除节点的前一个位置 ，low.next = low.next.next删除节点
+因为temp的next是head,此时返回temp.next时即位结果
+考虑到特殊情况，当删除节点为头部节点时，对于low指针，head的前面是0，也就是返回0->head.next ([1] ->[])([1 2 3]->[2  3])
+
+```
+代码：
+```java
+
+//方法一：
+public class removeNthFromEnd {
+    //定义一个listNode内部类
+    public class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    }
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode temp = new ListNode(0,head);
+        ListNode fast = head;
+        ListNode low = temp;
+        //先让fast指针走n步，然后low指针和fast指针走一个步长，当fast指针指向最后一个元素时，low指针正好走到要删除的元素的前一个
+        for(int i = 0; i < n;i++){
+            fast = fast.next;
+        }
+        while(fast != null){
+            fast = fast.next;
+            low = low.next;
+        }
+        low.next = low.next.next;
+        ListNode res = temp.next;
+        return res;
+    }
+}
+```
