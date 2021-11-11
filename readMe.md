@@ -738,3 +738,109 @@ public class removeNthFromEnd {
     }
 }
 ```
+### 第六天（滑动窗口）
+#### 1.  无重复字符的最长子串 3 简单
+
+题目：
+给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_12.png)
+
+事例1：
+```text
+输入: s = "abcabcbb"
+输出: 3 
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+```
+事例2：
+```text
+输入: s = "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+```
+思路1：
+```text
+方法一：
+题目要求返回一个字符串的最大不重复子串的长度，可以每次从字符串的一个位置开始往后进行遍历，不重复就计数加1
+出现重复的话就结束当前位置的遍历，比较此时的不重复元素计数大小跟MAX进行比较，MAX = MAX>count?MAX:count
+当遍历完所有位置，返回MAX的值即为最大不重复子串的长度
+
+```
+代码：
+```java
+
+//方法一：
+public class lengthOfLongestSubstring {
+    public int lengthOfLongestSubstring(String s) {
+        int MAX = 0;
+        for(int i = 0; i < s.length();i++){
+            StringBuffer sb = new StringBuffer();
+            sb.append(s.charAt(i));
+            int j = i+1;
+            int count = 1;
+            while(j<s.length()){
+                if(sb.indexOf(String.valueOf(s.charAt(j))) == -1){
+                    sb.append(s.charAt(j));
+                    count ++;
+                }else{
+                    break;
+                }
+                j++;
+            }
+            MAX = MAX>count?MAX:count;
+        }
+        return MAX;
+    }
+}
+```
+思路2：
+```text
+方法二：滑动窗口
+定义两个变量l,r初始位置为0，先移动r指针，当前元素不在窗口中，将r装入，r++
+当前元素在窗口中，将窗口的首位（l的指向位置）移除，l++。
+定义一个map用来判定当前窗口是否有重复值
+每次窗口更新之后（l的指向改变）更新下Max大小，记录上一个窗口的最大不重复子串的长度
+例如：“abcad"
+l= 0,r=0
+当前元素r的位置为0，所以，判断a是否在map当中，不在，所以跳出while（map.containsKey(s.charAt(r))）
+窗口为（0，0） 更新下Max = 1 , map{a} r++ r==1 进入下一层循环
+当前元素r位置为1，判断b是否在map当中，不在，所以跳出while（map.containsKey(s.charAt(r))）
+窗口大小为（0，1）跟新下Max = 2 map{a,b} r++ r==2 进入下一层循环
+当前元素r位置为2，判断c是否在map当中，不在，所以跳出while（map.containsKey(s.charAt(r))）
+窗口大小为（0，2）跟新下Max = 3 map{a,b,c} r++ r==3 进入下一层循环
+当前元素r位置为3，判断a是否在map当中，在，进入while（map.containsKey(s.charAt(r))），map中移除重复元素map{b,c} l++ l==1 进入下一层循环  判断a是否在map当中，不在，所以跳出while（map.containsKey(s.charAt(r))）
+窗口大小为（1，3）跟新下Max = 3 map{b,c,a} r++ r==4 进入下一层循环
+当前元素r位置为4，判断d是否在map当中，不在，所以跳出while（map.containsKey(s.charAt(r))）
+窗口大小为（1，4）跟新下Max = 4 map{a,b,c,d} r ==5 r== n，跳出外层循环 ，所以最大值为4
+
+
+```
+代码：
+```java
+
+//方法二：
+public class lengthOfLongestSubstring {
+    public int lengthOfLongestSubstring2(String s) {
+        int n = s.length();
+        if(n <= 1) {
+            return n;
+        }
+        int Max = 0;
+        int l =0,r=0;
+        HashMap<Character,Integer> map = new HashMap<>();
+        while(r<n){
+            Character rChar = s.charAt(r);
+            while(map.containsKey(rChar)){
+                map.remove(s.charAt(l));
+                l++;
+            }
+            Max = Max>(r-l+1)?Max:(r-l+1);
+            map.put(rChar,1);
+            r++;
+        }
+        return Max;
+    }
+}
+```
