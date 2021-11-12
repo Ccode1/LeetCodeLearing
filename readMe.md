@@ -844,3 +844,73 @@ public class lengthOfLongestSubstring {
     }
 }
 ```
+#### 2.  字符串的排列 567 中等
+
+题目：
+给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的排列。如果是，返回 true ；否则，返回 false 。
+换句话说，s1 的排列之一是 s2 的 子串 。
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_12.png)
+
+事例1：
+```text
+输入：s1 = "ab" s2 = "eidbaooo"
+输出：true
+解释：s2 包含 s1 的排列之一 ("ba").
+```
+事例2：
+```text
+输入：s1= "ab" s2 = "eidboaoo"
+输出：false
+```
+思路1：
+```text
+方法：滑动窗口
+本题的意思是找出s2是否包含s1的某种排序，最直观的方法就是将s1全排列，然后把所有的结果比较s2是否包含，但是较为复杂，重复很多计算
+可以采用滑动窗口的思想，先遍历一遍s1,记录s1中的所有字符的数量分别的个数，在s2中控制一个窗口，通过判断不同的情况，移动窗口的左右指针
+这里记录一个数组ctn[s1.charAt(i)-'a'] -=1   遍历一遍s1，得到各个字符的数量，滑动窗口的两个指针初始位置为0
+开始以r指针的位置为条件遍历，每遍历一个s2的位置，ctn[s2.charAt(r)-'a'] += 1 ,这一步意味着，每次遍历无论是否是s1中的元素，都会把该元素放到窗口中
+判断ctn[cur]的值是否大于0，如果大于0，说明当前滑动窗口的数元素，有些是不需要的，剔除左侧多余的元素，更新l的位置，
+然后判断当前元素的个数跟s1中此元素的数值等价的时候，窗口的大小是否等于s1的长度，如果是的话，返回结果
+如果ctn[cur-'a'] <= 0 说明当前元素在s1当中 ，进行结果判断，或者继续往后遍历 
+以为每次遍历都会增加r，所以会不断的滑动窗口右移，而当进入里层while循环的时候，说明出现多余的元素，会将窗口左侧移动，剔除多于元素
+s1:ab  s2 bbiefba
+cur   b(0)   b(1)        i          e         f          b              a
+窗口： [b]    [bb]->[b]  [bi]->[i]  [ie]->[e] [ef]->[f]   [fb]->[b]    [ba]->[ba]
+l      0      1          2          3         4          5              5
+r      0      1          2          3         4          5              6 
+r-l+1  0      0          1          1         1          1              2 => true
+2
+从上面过程可以看出，当遍历s2的当前元素不为s1中的元素，或者超过s1中当前元素的个数时，说明左侧的元素多余，移除，寻找下一个窗口
+```
+代码：
+```java
+
+//方法一：
+public class checkInclusion {
+    public boolean checkInclusion(String s1, String s2) {
+        int n1 = s1.length(),n2 = s2.length();
+        if(n1 > n2)
+            return false;
+        int [] cnt = new int[26];
+        for(char ch:s1.toCharArray()){
+            cnt[ch-'a'] -=1;
+        }
+        int l =0,r = 0;
+        for(;r<n2;r++){
+            int cur = s2.charAt(r)-'a';
+            cnt[cur] +=1;
+            while(cnt[cur] > 0){
+                cnt[s2.charAt(l)-'a'] -=1;
+                l++;
+            }
+            if(r-l+1 == n1){
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
