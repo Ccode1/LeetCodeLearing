@@ -4,7 +4,7 @@ import org.junit.Test;
 
 public class GetMax {
     /*
-        返回数组的最大值
+        返回数组的最大值 递归解法
      */
     public int GetMax(int[] nums){
         int res = process(nums,0,nums.length -1);
