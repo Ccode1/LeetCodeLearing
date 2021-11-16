@@ -1004,8 +1004,8 @@ public class floodFill {
 思路1：
 ```text
 方法：dfs
-通过循环找到第一个为1的位置，然后遍历此元素上下左右位置，满足条件继续递，结果加一，并且将当前位置置为0，防止重复计算
-不满足条件回到循环体，寻找下一个满足条件的位置
+返回最大的岛屿，分别统计每个岛屿的大小，然后通过一个值记录历史岛屿的最大值，比较返回最大值
+每次通过遍历寻找出岛屿的初始位置，以该位置为起点统计该岛屿的面积
 ```
 代码：
 ```java
@@ -1031,6 +1031,7 @@ public class maxAreaOfIsland {
         if(i<0 || j<0 ||i >= row||j >= clo ||nums[i][j] == 0){
             return 0;
         }
+        //遍历到此位置，说明该位置符合岛屿面积增加的条件，加一，然后继续往深处遍历
         nums[i][j] = 0;
         return 1+ dfs(nums,i-1,j,row,clo)+dfs(nums,i+1,j,row,clo)+dfs(nums,i,j-1,row,clo)+dfs(nums,i,j+1,row,clo);
     }

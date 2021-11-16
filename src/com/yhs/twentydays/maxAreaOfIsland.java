@@ -20,6 +20,7 @@ public class maxAreaOfIsland {
         if(i<0 || j<0 ||i >= row||j >= clo ||nums[i][j] == 0){
             return 0;
         }
+        //遍历到此位置，说明该位置符合岛屿面积增加的条件，加一，然后继续往深处遍历
         nums[i][j] = 0;
         return 1+ dfs(nums,i-1,j,row,clo)+dfs(nums,i+1,j,row,clo)+dfs(nums,i,j-1,row,clo)+dfs(nums,i,j+1,row,clo);
     }
