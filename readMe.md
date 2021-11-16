@@ -914,3 +914,127 @@ public class checkInclusion {
     }
 }
 ```
+
+### 第七天（深度优先搜索）
+#### 1.  图像渲染 733 简单
+
+题目：
+有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。
+
+给你一个坐标 (sr, sc) 表示图像渲染开始的像素值（行 ，列）和一个新的颜色值 newColor，让你重新上色这幅图像。
+
+为了完成上色工作，从初始坐标开始，记录初始坐标的上下左右四个方向上像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合条件的像素点与他们对应四个方向上像素值与初始坐标相同的相连像素点，……，重复该过程。将所有有记录的像素点的颜色值改为新的颜色值。
+
+最后返回经过上色渲染后的图像。
+
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_13.png)
+
+事例1：
+```text
+输入: 
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+输出: [[2,2,2],[2,2,0],[2,0,1]]
+解析: 
+在图像的正中间，(坐标(sr,sc)=(1,1)),
+在路径上所有符合条件的像素点的颜色都被更改成2。
+注意，右下角的像素没有更改为2，
+因为它不是在上下左右四个方向上与初始点相连的像素点
+```
+思路1：
+```text
+方法一：
+如果相邻元素只要有一个是与其实元素的值相同，那么替换成新的像素大小
+遍历当前元素的上下左右位置，如果当前元素的不满足上色条件，那么这条递归分支断开，这也是为什么实例中右下角的1为什么没有被染色的原因
+
+```
+代码：
+```java
+
+//dfs：
+public class floodFill {
+
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        int target = image[sr][sc];
+        int row = image.length;
+        int clos = image[0].length;
+        dfs(image,sr,sc,target,newColor,row,clos);
+        return image;
+    }
+
+    private void dfs(int[][] image,int i, int j, int target, int newColor, int row, int clos) {
+        if(i < 0 || j < 0 || i >= row || j >= clos || image[i][j] != target ||image[i][j] == newColor){
+            return ;
+        }else{
+            image[i][j] = newColor;
+            dfs(image,i-1,j,target,newColor,row,clos);
+            dfs(image,i+1,j,target,newColor,row,clos);
+            dfs(image,i,j-1,target,newColor,row,clos);
+            dfs(image,i,j+1,target,newColor,row,clos);
+        }
+    }
+}
+```
+#### 2.  岛屿的最大面积 659 中等
+
+题目：
+给你一个大小为 m x n 的二进制矩阵 grid 。
+
+岛屿 是由一些相邻的 1 (代表土地) 构成的组合，这里的「相邻」要求两个 1 必须在 水平或者竖直的四个方向上 相邻。你可以假设 grid 的四个边缘都被 0（代表水）包围着。
+
+岛屿的面积是岛上值为 1 的单元格的数目。
+
+计算并返回 grid 中最大的岛屿面积。如果没有岛屿，则返回面积为 0 。
+
+
+条件提示:
+
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_14.png)
+
+事例1：
+![img.png](https://raw.githubusercontent.com/Ccode1/LeetCodeLearing/master/img/img_15.png)
+事例2：
+```text
+输入：grid = [[0,0,0,0,0,0,0,0]]
+输出：0
+```
+思路1：
+```text
+方法：dfs
+返回最大的岛屿，分别统计每个岛屿的大小，然后通过一个值记录历史岛屿的最大值，比较返回最大值
+每次通过遍历寻找出岛屿的初始位置，以该位置为起点统计该岛屿的面积
+```
+代码：
+```java
+
+//方法一：
+public class maxAreaOfIsland {
+    public int maxAreaOfIsland(int[][] grid) {
+        int row = grid.length;
+        int clo = grid[0].length;
+        if(row == 0 || clo == 0)
+            return 0;
+        int res = 0;
+        for(int i =0 ;i < row;i++){
+            for(int j = 0;j <clo;j++){
+                if(grid[i][j] == 1){
+                    res = Math.max(dfs(grid,i,j,row,clo),res);
+                }
+            }
+        }
+        return res;
+    }
+    public int dfs(int[][]nums,int i,int j,int row,int clo){
+        if(i<0 || j<0 ||i >= row||j >= clo ||nums[i][j] == 0){
+            return 0;
+        }
+        //遍历到此位置，说明该位置符合岛屿面积增加的条件，加一，然后继续往深处遍历
+        nums[i][j] = 0;
+        return 1+ dfs(nums,i-1,j,row,clo)+dfs(nums,i+1,j,row,clo)+dfs(nums,i,j-1,row,clo)+dfs(nums,i,j+1,row,clo);
+    }
+
+}
+```
