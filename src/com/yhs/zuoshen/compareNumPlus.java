@@ -2,6 +2,9 @@ package com.yhs.zuoshen;
 
 import org.junit.Test;
 
+import javax.annotation.Resource;
+
+@Resource(name = "compareNumplus")
 public class compareNumPlus {
     //荷兰国旗问题，给定一个数组和一个目标直指，返回小于目标值的在左侧，等于的在中间，大于的在后面
     public int [] compareNumPlus(int[] nums,int target){
